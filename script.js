@@ -20,7 +20,22 @@ function criarCobrinha(){
     }
 }
 
+document.addEventListener("keydown", update); //keydown é um evento de cliques
+
+function update(event){ //criar os comandos para movimentar a cobra e evitar movimento contrário a direção
+    if(event.keyCode == 37 && direction != "right") direction = "left";
+    if(event.keyCode == 38 && direction != "down") direction = "up";
+    if(event.keyCode == 39 && direction != "left") direction = "right";
+    if(event.keyCode == 40 && direction != "up") direction = "down";
+}
+
 function iniciarJogo(){
+    //criar as regras para a cobrinha permanecer no canvas quando exceder o limite da tela
+    if(snake[0].x > 15 * box && direction == "right") snake[0].x = 0;
+    if(snake[0].x < 0 && direction == "left") snake[0].x = 16 * box;
+    if(snake[0].y > 15 * box && direction == "down") snake[0].y = 0;
+    if(snake[0].y < 0 && direction == "up") snake[0].y = 16 * box;
+    
     criarBG();
     criarCobrinha();
     //configurando o ponto inicial da cobrinha para iniciar os movimentos
@@ -40,7 +55,7 @@ function iniciarJogo(){
     }
 
     snake.unshift(newHead);
-    
+
 }
 
 let jogo = setInterval(iniciarJogo, 100); //configurar intervalo em 100ms
